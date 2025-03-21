@@ -1,0 +1,69 @@
+---
+title: "Introduction to Machine Learning - Activity 2: Clustering and Dimensionality Reduction"
+author: "Samuel Ball"
+---
+# Introduction to Machine Learning - Activity 2: Clustering and Dimensionality Reduction
+
+Classification models are *supervised* models; they require labels to train. In health applications, it's common to not have labels available due a wide range of issues (cost, patient consent, etc). Therefore sometimes we have to use ML methods that do not need labels; known as *unsupervised* methods.
+
+Perhaps the most popular unsupervised machine learning method is *clustering*. Here we'll look at how we can apply K-Means clustering using R.
+
+## Project Setup 
+
+The first step is to install and import the packages we need into our environment. For this activity you may have to run `install.packages("umap")` for what we'll do later.
+
+```{r}
+library(umap)
+library(stats)
+```
+
+## Dataset 
+
+<!-- TODO: Add link! -->
+For this activity, the data can be found in the `data` directory and can be loaded into R using the command:
+
+```{r}
+data <- read.csv(LINK)
+```
+
+## Preprocessing Data 
+
+As we saw in the lecture, it's important to scale our data so each of the features is equally weighted. For this, we can simply use the following command:
+
+```{r}
+scaled_data <- scale(data)
+```
+## Build the Model 
+
+We can now get to building the model. For this, we use the `kmeans` function:
+
+```{r}
+k <- 2
+kmeans_result <- kmeans(scaled_data, centers = k, nstart= 25)
+```
+
+## Visualising our Clustering
+
+Given that our data is so multidimensional, we could do with reducing it down to two dimensions so we can visualise it in a plot. For this, we can use Uniform Manifold Approximation and Projection (UMAP):
+
+```{r}
+umap_result <- umap(scaled_data, n_components=2)
+```
+
+We can then plot the data in UMAP space, using the clusters as colors.
+
+```{r}
+plot(umap_result$layout, col=kmeans_result$cluster)
+```
+
+
+## Activity 
+
+Now do the following:
+
+<!-- TODO: Add link -->
+- Import the dataset from [this resource](https://link) and follow the same steps above to get a clustering.
+- With the same dataset, write code that calculates the mean distance to the nearest cluster center for each point. You may need to do some searching for how to do this!
+- Now, test how this measure changes as you alter the value of `k`. Look at what happens to your UMAP visualisation as well when you do this!
+- Plot the mean distance versus each value of `k` - you should notice the point of diminishing returns!
+

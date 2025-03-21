@@ -1,0 +1,85 @@
+---
+title: "Introduction to Machine Learning - Activity 1: Classification"
+author: "Samuel Ball"
+---
+# Introduction to Machine Learning - Activity 1: Classification
+
+Welcome to the first activity of the Introduction to Machine Learning course! We'll look at how to build a simple machine learning (ML) clarification model on a toy dataset.
+
+## Project Setup
+
+First, let's load the necessary libraries for this project. We'll use the `class` and `caTools` libraries for this activity.
+
+`class` will be used to build the k-Nearest Neighbors (k-NN) model, while `caTools` will be used to split the dataset into training and testing sets.
+
+You may have to run `install.packages("class")` and `install.packages("caTools")` if you haven't installed these libraries yet.
+
+```{r}
+library(class)
+library(caTools)
+```
+
+## Dataset 
+
+All the data for this work can be found in the `data` folder, or online. To load the data into the R environment, we'll use the `read.csv` function as follows:
+
+```{r}
+data <- read.csv("data/classification/breast_cancer.csv")
+```
+
+We can then use the `sample.split` function from the `caTools` library to split the dataset into training and testing sets. We'll use 80% of the data for training and 20% for testing:
+
+```{r}
+split <- sample.split(data$target, SplitRatio = 0.8)
+train <- subset(data, split == TRUE)
+test <- subset(data, split == FALSE)
+```
+
+## Building the Model 
+
+We can now train the KNN model using the `knn` function from the `class` library. The function takes the following arguments:
+- `train`: The training dataset without the target column.
+- `test`: The testing dataset without the target column.
+- `cl`: The target column in the training dataset.
+- `k`: The number of neighbors to consider.
+
+For example, to build a KNN model with 5 neighbors, we can use the following code:
+
+```{r}
+k <- 5
+model <- knn(train = train[, -ncol(train)], test = test[, -ncol(test)], cl = train$target, k = k)
+```
+
+## Evaluating the Model 
+
+Finally, we can evaluate the model using the confusion matrix. We can use the `table` function to create a confusion matrix and calculate the accuracy of the model. In addition to the confusion matrix and accuracy, we also calculate the F1 score for the model. Remember the F1 score is defined as: 
+
+$F1 = \frac{2 \times TP}{2 \times TP + FP + FN}$
+
+where:
+- TP: True Positives
+- FP: False Positives
+- FN: False Negatives
+
+```{r}
+conf_matrix <- table(test$target, model)
+accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
+f1_score <- 2 * conf_matrix[2, 2] / (2 * conf_matrix[2, 2] + conf_matrix[2, 1] + conf_matrix[1, 2])
+print("Confusion Matrix")
+print(conf_matrix)
+sprintf("Accuracy: %s", accuracy)
+sprintf("F1 Score: %s", f1_score)
+```
+
+## Exercise 
+
+Now that you have seen how to build a simple classification model on our health dataset, try doing the same with the new dataset below. The `heart_disease` dataset has 13 features and a "target" column that corresponds to a patient's measure of heart disease. Answer the following questions:
+
+```{r}
+data2 <- read.csv("data/classification/heart_disease")
+```
+
+- What happens to the model's accuracy when you change the number of neighbors (k)?
+- Plot the accuracy of the model for different values of k.
+- Can you investigate any other machine learning algorithms that might perform better on this dataset?
+
