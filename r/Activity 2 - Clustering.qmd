@@ -23,7 +23,7 @@ library(stats)
 For this activity, the data can be found in the `data` directory and can be loaded into R using the command:
 
 ```{r}
-data <- read.csv(LINK)
+data <- read.csv("https://raw.githubusercontent.com/stmball/DAA_ML_Intro/refs/heads/main/data/clustering/HCVData.csv")
 ```
 
 ## Preprocessing Data 
@@ -62,7 +62,7 @@ plot(umap_result$layout, col=kmeans_result$cluster)
 Now do the following:
 
 <!-- TODO: Add link -->
-- Import the dataset from [this resource](https://link) and follow the same steps above to get a clustering.
+- Import the dataset from [this resource](https://github.com/stmball/DAA_ML_Intro/blob/main/data/clustering/heart_failure.csv) and follow the same steps above to get a clustering.
 - With the same dataset, write code that calculates the mean distance to the nearest cluster center for each point. You may need to do some searching for how to do this!
 - Now, test how this measure changes as you alter the value of `k`. Look at what happens to your UMAP visualisation as well when you do this!
 - Plot the mean distance versus each value of `k` - you should notice the point of diminishing returns!
