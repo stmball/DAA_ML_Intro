@@ -24,7 +24,7 @@ library(caTools)
 All the data for this work can be found in the `data` folder, or online. To load the data into the R environment, we'll use the `read.csv` function as follows:
 
 ```{r}
-data <- read.csv("data/classification/breast_cancer.csv")
+data <- read.csv("https://raw.githubusercontent.com/stmball/DAA_ML_Intro/refs/heads/main/data/classification/breast_cancer.csv")
 ```
 
 We can then use the `sample.split` function from the `caTools` library to split the dataset into training and testing sets. We'll use 80% of the data for training and 20% for testing:
@@ -65,8 +65,7 @@ where:
 conf_matrix <- table(test$target, model)
 accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
 f1_score <- 2 * conf_matrix[2, 2] / (2 * conf_matrix[2, 2] + conf_matrix[2, 1] + conf_matrix[1, 2])
-print("Confusion Matrix")
-print(conf_matrix)
+sprintf("Confusion Matrix: %s", conf_matrix)
 sprintf("Accuracy: %s", accuracy)
 sprintf("F1 Score: %s", f1_score)
 ```
@@ -76,7 +75,7 @@ sprintf("F1 Score: %s", f1_score)
 Now that you have seen how to build a simple classification model on our health dataset, try doing the same with the new dataset below. The `heart_disease` dataset has 13 features and a "target" column that corresponds to a patient's measure of heart disease. Answer the following questions:
 
 ```{r}
-data2 <- read.csv("data/classification/heart_disease")
+data2 <- read.csv("https://raw.githubusercontent.com/stmball/DAA_ML_Intro/refs/heads/main/data/classification/heart_disease.csv")
 ```
 
 - What happens to the model's accuracy when you change the number of neighbors (k)?
